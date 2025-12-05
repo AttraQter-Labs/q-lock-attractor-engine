@@ -1,0 +1,14 @@
+
+[project]
+name = "q_lock_attractor_engine"
+version = "0.1.0"
+description = "Q-Lock Attractor Engine — private scaffold"
+requires-python = ">=3.10"
+authors = [
+  {name = "Nicholas Hensley"}
+]
+dependencies = []
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
