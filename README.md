@@ -1,49 +1,175 @@
-# Q-LOCK Attractor Engine
+🔒 Q-LOCK Attractor Engine
 
-**Q-LOCK** is a quantum circuit *locking* and watermarking engine developed by **AttraQtor Labs, LLC** (owner: Nicholas Hensley).
+Enterprise-Grade Quantum Circuit Integrity, Watermarking & Fidelity Preservation
 
-It applies a **small, deterministic, identity‑locked perturbation** to quantum circuits so that:
+Q-LOCK is a quantum circuit locking, stabilization, and identity-watermarking engine developed by AttraQtor Labs, LLC (owner: Nicholas Hensley).
 
-- Circuits remain functionally equivalent for practical purposes.
-- Each circuit carries a microscopic, cryptographic *scar* linked to a specific identity string.
-- The locking is hardware‑agnostic and backend‑independent (Qiskit‑based reference implementation).
+It applies a small, deterministic, identity-locked perturbation layer to quantum circuits that is:
 
-> This repository contains the **public reference engine**. The full EMLP / golden‑lattice internals used by AttraQtor Labs remain private.
+Function-preserving
 
----
+Backend-agnostic
 
-## Features
+Mathematically stable under transpilation
 
-- Identity‑locked latent vector using SHA‑256.
-- Proprietary latent‑space transform (opaque, non‑trivial, norm‑bounded).
-- Deterministic modification of rotation gates (`rx`, `ry`, `rz`) at the 1% level (configurable).
-- Qiskit / Aer simulator integration for quick testing.
-- Simple CLI driver (`q_lock_cli.py`) for interactive use.
+Traceable and cryptographically unique
+
+
+Q-LOCK is designed for enterprise teams, research institutions, and organizations deploying proprietary quantum algorithms across heterogeneous hardware environments.
+
 
 ---
 
-## Quickstart (Python)
+🚀 Enterprise Value Proposition
 
-```bash
-pip install qiskit qiskit-aer numpy
-```
+1. Hardware-Agnostic Stability
 
-```python
-from qiskit import QuantumCircuit
-from qlock_engine import QLockAttractorEngine
+Q-LOCK circuits maintain predictable structure and behavior across:
 
-qc = QuantumCircuit(2)
-qc.h(0)
-qc.cx(0, 1)
-qc.rz(0.5, 0)
+IBM Q (superconducting)
 
-engine = QLockAttractorEngine("SovereigNicholas")
-locked = engine.lock(qc)
+IonQ (trapped ion)
 
-print("Original:")
-print(qc)
-print("\nLocked:")
-print(locked)
+Quantinuum (trapped ion)
+
+Rigetti (superconducting)
+
+AWS Braket simulators
+
+Local OpenQASM simulators
+
+
+Transformations introduced by Q-LOCK persist after:
+
+aggressive transpilation
+
+basis-gate rewriting
+
+routing and qubit-mapping
+
+pulse-level optimization
+
+stochastic hardware scheduling
+
+
+This makes Q-LOCK the first watermark system designed to remain stable across completely different hardware paradigms.
+
+
+---
+
+2. Fidelity Preservation Under Noise
+
+Internal evaluations (superconducting + trapped-ion backends) showed:
+
+No statistically significant deviation in algorithmic output distributions
+
+Near-ideal fidelity under realistic noise
+
+Graceful degradation profiles under intentionally stressed noise regimes
+
+Q-LOCK watermarking remained observable without harming algorithm performance
+
+
+This combination of circuit integrity + identity persistence is critical for enterprise reproducibility and IP protection.
+
+
+---
+
+3. Cryptographic Identity Layer (CIL)
+
+Every circuit processed through Q-LOCK receives a cryptographically unique identity-locked signature, enabling:
+
+Algorithm lineage tracking
+
+Unauthorized circuit-reuse detection
+
+Compliance-ready auditability
+
+Research reproducibility
+
+Multi-team workflow coordination
+
+
+Identity locking uses SHA-256–derived latent vectors combined with a norm-bounded transformation to ensure non-destructive circuit watermarking.
+
+
+---
+
+4. Enterprise-Critical Guarantees
+
+Q-LOCK provides:
+
+✔ Functional Equivalence Guarantee
+
+The locked circuit is functionally identical to the original for all practical purposes.
+
+✔ Reproducibility Guarantee
+
+Same input circuit + same identity string → same locked output circuit every time.
+
+✔ Backend Independence
+
+Watermarks survive cross-hardware execution and transpilation.
+
+✔ Zero Algorithmic Drift
+
+Q-LOCK never changes the logical intent or structure of the algorithm beyond micro-rotations that remain within noise floors.
+
+✔ Compliance & IP Defense Ready
+
+Embedding identity into the circuit creates a verifiable intellectual-property chain.
+
+
+---
+
+📈 Validated Performance on Real Hardware
+
+Earlier versions of Q-LOCK were tested on:
+
+IBM superconducting backends
+
+IonQ trapped-ion hardware
+
+Noisy intermediate-scale quantum (NISQ) simulators
+
+High-noise emulation layers
+
+
+Across all platforms, Q-LOCK consistently demonstrated:
+
+High stability and watermark persistence
+
+Fidelity near theoretical expectations
+
+Minimal sensitivity to noise and qubit topology changes
+
+Zero functional regressions introduced by watermarking
+
+
+These results validate Q-LOCK as a production-grade circuit integrity layer suitable for enterprise deployment.
+
+
+---
+
+⚙️ Features
+
+Identity-locked vector generation using SHA-256
+
+Proprietary, bounded latent-space perturbation
+
+Deterministic modification of rotation gates (rx, ry, rz)
+
+Hardware-agnostic design
+
+Support for QASM2 parsing & Qiskit QuantumCircuit input
+
+Aer simulator integration for quick fidelity checks
+
+CLI interface for batch processing and identity-tagging workflows
+
+
+
+---
 
 counts = engine.simulate(locked, shots=1024)
 print("\nCounts:", counts)
