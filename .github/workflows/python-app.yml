@@ -1,0 +1,136 @@
+name: QLOCK Full Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------
+  # 1. Lint + Tests (core health check)
+  # ---------------------------------------------------
+  build-test-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          flake8 .
+
+      - name: Run tests with pytest
+        run: |
+          pip install pytest
+          pytest -q
+
+  # ---------------------------------------------------
+  # 2. Build documentation (MkDocs → GitHub Pages)
+  #    Runs AFTER tests pass
+  # ---------------------------------------------------
+  build-docs:
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+
+      - name: Build and deploy docs to gh-pages
+        run: |
+          mkdocs gh-deploy --force
+
+  # ---------------------------------------------------
+  # 3. Docker image build (sanity check)
+  # ---------------------------------------------------
+  build-docker:
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t qlock-engine:latest .
+
+  # ---------------------------------------------------
+  # 4. Publish to PyPI on tag (optional, needs secret)
+  #    Set GitHub secret: PYPI_API_TOKEN
+  # ---------------------------------------------------
+  publish-pypi:
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: "__token__"
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
+
+  # ---------------------------------------------------
+  # 5. Deploy Azure Function (optional, needs secret)
+  #    Set GitHub secret: AZURE_PUBLISH_PROFILE
+  # ---------------------------------------------------
+  deploy-azure:
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Azure Functions
+        uses: Azure/functions-action@v1
+        with:
+          app-name: qlock-api
+          package: ./azure
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
