@@ -1,360 +1,140 @@
-📘 Q-LOCK Attractor Engine — Enterprise Edition
+# Q-LOCK ATTRACTOR ENGINE  
+**AttraQtor Labs LLC — Identity-Locked Quantum Circuit Stabilization**
 
-The Q-LOCK Attractor Engine is a quantum-safe, hardware-agnostic circuit transformation module that performs deterministic, identity-locked, ultra-low-magnitude perturbations on quantum circuits. These perturbations act as a basin-of-attraction stabilizer, improving circuit fidelity under noise without altering functional equivalence.
-
-Developed by AttraQtor Labs, LLC, Q-LOCK provides a backwards-compatible, audit-ready, simulator-verified, and hardware-validated method for embedding micro-watermarks and stability signatures into QASM-level quantum programs.
-
+> Deterministic, identity-locked perturbations that preserve circuit intent while stabilizing behavior under noise and compilation drift.
 
 ---
 
-🚀 Why Q-LOCK Matters
+## 1. What This Is
 
-NISQ-era hardware suffers from:
+The **Q-LOCK Attractor Engine** is a **pre-processing layer** for quantum circuits:
 
-Decoherence
+- It ingests a user’s **identity string** and a **QASM / QuantumCircuit**.
+- It computes a **high-dimensional latent vector** from that identity.
+- It applies a **tiny, structured perturbation** to rotation gates in the circuit.
+- The perturbation is:
+  - **Deterministic** for a given identity and circuit.
+  - **Invertible at the logical level** (no change of algorithmic intent).
+  - **Statistically stable** under compilation, layout changes, and moderate noise.
 
-Crosstalk
+In plain language:
 
-Calibration drift
-
-Gate-dependent noise
-
-Backend-specific instabilities
-
-
-Q-LOCK introduces a mathematically bounded ≤10⁻⁶ rad perturbation regime, derived from a custom latent-space identity transform, that consistently:
-
-✅ Preserves the functional behavior of the circuit
-
-✅ Injects a cryptographic identity signature
-
-✅ Increases stability on noisy hardware
-
-✅ Improves fidelity in repeated sampling
-
-✅ Helps detect tampering or unauthorized circuit modification
-
-Q-LOCK is compatible with QASM 2.0, QASM 3.0, Qiskit, Cirq, and Braket.
-
+> You get a circuit that “looks and behaves” like your original,  
+> but carries a **hidden, identity-locked signature** and often shows  
+> **more stable output distributions** across runs and backends.
 
 ---
 
-⚡ Key Features
+## 2. Why Enterprises Care
 
-🔒 Identity-Locked Latent Vector
+### 2.1 Deterministic Identity Locking
 
-A SHA-256 or SHA-3-derived latent vector is mapped into a bounded rotation-space, producing a microscopic cryptographic scar unique to the user or organization.
+Each run is tagged by a **cryptographic identity hash** (derived from your identity string).  
 
-🧩 Deterministic Rotation Perturbation
+This gives:
 
-Applies structured micro-adjustments to rx, ry, rz, and controlled-rotation gates without altering intended logic.
+- **Provenance**: who generated/authorized a circuit.
+- **Auditability**: internal teams can trace circuits back to origin.
+- **Non-repudiation flavor**: two different identities almost surely produce different locked circuits.
 
-🏛 Hardware-Agnostic Compatibility
-
-The public engine relies only on Qiskit-standard constructs.
-Private AttraQtor Labs versions also support:
-
-IonQ
-
-Quantinuum
-
-Rigetti
-
-Oxford Ion traps
-
-Custom simulators
-
-
-🔬 Perfect-Fidelity Simulation Mode
-
-In stabilized environments (qasm_simulator, statevector_simulator), Q-LOCK consistently achieves:
-
-Simulated fidelity ≥ 0.999999
-
-🧪 Real Hardware Validation
-
-Across multiple IBM Quantum backends (ibm_torino, ibm_perth, etc.), earlier versions of the attractor logic consistently demonstrated:
-
-Stable distribution preservation
-
-Reduced variance under identical sampling
-
-Higher repeatability than unmodified baselines
-
-Reproducible signatures across calibration cycles
-
-
-This repository includes blurred, privacy-safe real hardware runs.
-
+No quantum keys, no classical tokens — just the identity string and the attractor logic.
 
 ---
 
-📊 Real Hardware Evidence (Blurred for Security)
+### 2.2 Distribution-Preserving Perturbations
 
-> Replace the filenames below once you upload your blurred screenshots.
+The engine is explicitly designed so that:
 
+- On simulators with no noise, the **ideal output distribution** is effectively unchanged.
+- Under realistic noise models (depolarizing / thermal relaxation), small tests often show:
+  - **More stable histograms** across repeated runs.
+  - Less variability when changing compilation settings.
 
-
-### Real Hardware Validation — IBM QPU Executions
-
-The following IBM Quantum runs (blurred to remove identifiers) demonstrate
-distribution-stability behavior characteristic of attractor-locked circuits.
-
-![Run 01](assets/hardware_run_01_ibm_torino.png)
-![Run 02](assets/hardware_run_02_ibm_torino.png)
-![Run 03](assets/hardware_run_03_ibm_torino.png)
-![Run 04](assets/hardware_run_04_ibm_torino.png)
-![Run 05](assets/hardware_run_05_ibm_torino.png)
-
+This is **not** magic error correction. It is a **deterministic, structured “jitter” layer** that reshapes how the circuit sits in the noise landscape, without altering its logic.
 
 ---
 
-🧰 Installation
+### 2.3 Real Hardware Evidence (Earlier Versions)
 
-pip install qiskit numpy
+Earlier internal versions of the attractor logic were tested on:
 
+- **IBM Quantum hardware** (e.g., Perth, Brisbane, Toronto)
+- High-depth circuits including:
+  - GHZ chains
+  - Entangling ladders
+  - Parameterized rotation networks
 
----
+Results consistently showed:
 
-🛠 Quick Start
+- **High agreement between locked and ideal distributions**, and
+- **Stable behavior** across repeated shots and layout rewrites.
 
-from q_lock_engine import qlock
+The current engine maintains the same conceptual architecture, with a more modular, enterprise-ready implementation.
 
-locked_qc = qlock(
-    circuit=my_qiskit_circuit,
-    identity_string="Enterprise_Default"
-)
-
-result = backend.run(locked_qc).result()
-
-
----
-
-🧪 CLI Mode
-
-python q_lock_cli.py --input my_circuit.qasm --id "MyCompany2025"
-
+> 📊 See `/benchmarks/` and the README “Hardware Benchmarks” section (once populated)  
+>   for example histograms and real hardware runs.
 
 ---
 
-🧱 Repository Structure
+## 3. High-Level Architecture
 
-q-lock-attractor-engine/
-│
-├── q_lock_engine.py        # Public engine
-├── q_lock_cli.py           # CLI wrapper
-├── tests/                  # Unit + fidelity tests
-├── assets/                 # Screenshots (blurred)
-├── docs/                   # Theory + architecture
-├── WHITEPAPER_QLOCK.md     # Full technical spec
-├── LICENSE-ATTRAQTOR-LABS.md
-└── README.md
+At a high level, the engine does this:
 
+1. **Identity Encoding**
+   - Take an arbitrary string, e.g.
+     - `"alice@example.com"`
+     - `"Team-A-Production-Key"`
+     - `"Prof. Einstein"`
+   - Hash it with a cryptographic hash (e.g., SHA-256).
+   - Expand and normalize into a **high-dimensional real vector**.
 
----
+2. **Latent-Space Attractor**
+   - Map that vector into a very high-dimensional latent space (e.g. 60k+ dimensions).
+   - Apply a **structured, unitary-based attractor iteration**:
+     - Golden-ratio inspired phase structure.
+     - Controlled contraction towards a stable fixed point.
+   - The result is a **deterministic “identity signature vector”**.
 
-🧪 Scientific Guarantees
+3. **Circuit Feature Extraction**
+   - Parse the circuit (QASM2 or `QuantumCircuit`) and extract:
+     - Rotation angles (from `rx`, `ry`, `rz`, parameterized gates).
+     - Gate counts / structural features (fallback path).
+   - Normalize these into a feature vector.
 
-✔ Functional Equivalence
-
-The transformation does not alter computational outcomes in the ideal noise-free model.
-
-✔ Fidelity Stability
-
-Bounded micro-perturbations create an attractor basin that mitigates noise-amplification in deep circuits.
-
-✔ Hardware-Independence
-
-Because modifications occur only in rotation space, Q-LOCK is valid across:
-
-CMOS superconducting qubits
-
-Ion traps
-
-Neutral atom arrays
-
-Photonic modes
-
-
-✔ Legal & Safe
-
-The public version excludes proprietary EMLP waveform carriers,
-golden-blanket error envelopes, and any non-exportable internal modules.
-
+4. **Fusion & Perturbation**
+   - Fuse circuit features with the identity signature vector.
+   - Compute a **small per-gate perturbation** for rotation angles.
+   - Produce a **locked circuit**:
+     - Algorithmically equivalent.
+     - Identity-tagged implicitly.
+     - Ready for simulation or hardware execution.
 
 ---
 
-🧾 License Summary
+## 4. Current Public Capabilities
 
-The public engine is provided under a restrictive AttraQtor Labs License:
+The public Q-LOCK engine in this repository provides:
 
-Commercial use requires permission
+- ✅ **Identity string input** (via CLI or notebook)
+- ✅ **QASM 2.0 circuit intake**
+- ✅ Optional **Qiskit `QuantumCircuit` intake**
+- ✅ **Locked circuit output** in `QuantumCircuit` form
+- ✅ **QASM2 export** of the locked circuit
+- ✅ Optional **local simulation** (QASM simulator) for:
+  - Counts histograms
+  - Baseline distribution comparisons
 
-Redistribution of modified forms is prohibited
-
-Attribution to AttraQtor Labs, LLC is mandatory
-
-The private engine remains proprietary
-
-
-
----
-
-📬 Contact (Enterprise / Research Access)
-
-For enterprise licensing, research collaboration, or access to
-non-public high-fidelity versions:
-
-AttraQtor Labs, LLC
-Email: contact@attraqtorlabs.com
-Website: coming soon — AttraQtorLabs.com
+The **core attractor logic** used to compute the identity perturbations is kept proprietary by AttraQtor Labs LLC and **not exposed in this repository**.
 
 ---
 
-2. Fidelity Preservation Under Noise
+## 5. Quickstart
 
-Internal evaluations (superconducting + trapped-ion backends) showed:
+### 5.1 Requirements
 
-No statistically significant deviation in algorithmic output distributions
+Python 3.10+ recommended.
 
-Near-ideal fidelity under realistic noise
-
-Graceful degradation profiles under intentionally stressed noise regimes
-
-Q-LOCK watermarking remained observable without harming algorithm performance
-
-
-This combination of circuit integrity + identity persistence is critical for enterprise reproducibility and IP protection.
-
-
----
-
-3. Cryptographic Identity Layer (CIL)
-
-Every circuit processed through Q-LOCK receives a cryptographically unique identity-locked signature, enabling:
-
-Algorithm lineage tracking
-
-Unauthorized circuit-reuse detection
-
-Compliance-ready auditability
-
-Research reproducibility
-
-Multi-team workflow coordination
-
-
-Identity locking uses SHA-256–derived latent vectors combined with a norm-bounded transformation to ensure non-destructive circuit watermarking.
-
-
----
-
-4. Enterprise-Critical Guarantees
-
-Q-LOCK provides:
-
-✔ Functional Equivalence Guarantee
-
-The locked circuit is functionally identical to the original for all practical purposes.
-
-✔ Reproducibility Guarantee
-
-Same input circuit + same identity string → same locked output circuit every time.
-
-✔ Backend Independence
-
-Watermarks survive cross-hardware execution and transpilation.
-
-✔ Zero Algorithmic Drift
-
-Q-LOCK never changes the logical intent or structure of the algorithm beyond micro-rotations that remain within noise floors.
-
-✔ Compliance & IP Defense Ready
-
-Embedding identity into the circuit creates a verifiable intellectual-property chain.
-
-
----
-
-📈 Validated Performance on Real Hardware
-
-Earlier versions of Q-LOCK were tested on:
-
-IBM superconducting backends
-
-IonQ trapped-ion hardware
-
-Noisy intermediate-scale quantum (NISQ) simulators
-
-High-noise emulation layers
-
-
-Across all platforms, Q-LOCK consistently demonstrated:
-
-High stability and watermark persistence
-
-Fidelity near theoretical expectations
-
-Minimal sensitivity to noise and qubit topology changes
-
-Zero functional regressions introduced by watermarking
-
-
-These results validate Q-LOCK as a production-grade circuit integrity layer suitable for enterprise deployment.
-
-
----
-
-⚙️ Features
-
-Identity-locked vector generation using SHA-256
-
-Proprietary, bounded latent-space perturbation
-
-Deterministic modification of rotation gates (rx, ry, rz)
-
-Hardware-agnostic design
-
-Support for QASM2 parsing & Qiskit QuantumCircuit input
-
-Aer simulator integration for quick fidelity checks
-
-CLI interface for batch processing and identity-tagging workflows
-
-
-
----
-
-counts = engine.simulate(locked, shots=1024)
-print("\nCounts:", counts)
-```
-
----
-
-## CLI Usage
+Install base dependencies:
 
 ```bash
-python q_lock_cli.py
-```
-
-You will be prompted for:
-
-1. An **identity string** (e.g. `"SovereigNicholas"`).
-2. A small **QASM2** circuit (end with a blank line).
-
-The tool prints a locked QASM2 version of your circuit.
-
----
-
-## Licensing (Summary)
-
-- © AttraQtor Labs, LLC (Nicholas Hensley). All rights reserved.
-- This repository is **source‑available**, but **not open source**.
-- You may:
-  - Clone and run the code locally.
-  - Use it internally for research and prototyping.
-- You may **not**:
-  - Redistribute modified or unmodified versions of the engine.
-  - Offer it as a service or embed it in a commercial product without a license.
-
-See [`LICENSE-ATTRAQTOR-LABS.md`](LICENSE-ATTRAQTOR-LABS.md) for full terms.
+pip install qiskit qiskit-aer numpy
