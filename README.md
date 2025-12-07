@@ -1,4 +1,5 @@
-# Q-LOCK ATTRACTOR ENGINE  
+numpy
+umpyumpy Q-LOCK ATTRACTOR ENGINE  
 **AttraQtor Labs LLC — Identity-Locked Quantum Circuit Stabilization**
 
 > Deterministic, identity-locked perturbations that preserve circuit intent while stabilizing behavior under noise and compilation drift.
@@ -137,4 +138,4 @@ Python 3.10+ recommended.
 Install base dependencies:
 
 ```bash
-pip install qiskit qiskit-aer numpy
+pip install qiskit qiskit-ae(If you only want to use the text-mode wrapper and not simulate, you can skip qiskit-aer.)r numpy
