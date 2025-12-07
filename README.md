@@ -673,7 +673,49 @@ per-team keys
 per-tenant identity domains
 
 
+## Benchmarks & Real-Hardware Evidence
 
+Q-LOCK has been evaluated both in simulation (Qiskit Aer) and on **real IBM
+Quantum hardware** (e.g. `ibm_torino` in the us-east region).
+
+### Real-hardware runs (IBM Torino, sampler jobs)
+
+The following anonymized screenshots are taken from completed IBM Quantum jobs
+run by AttraQtor Labs. All personally identifying metadata has been redacted.
+Only the backend name, histogram and circuit structure are shown.
+
+
+![IBM Torino – locked multi-qubit ladder circuit](Screenshot_20251206-142029.png)
+*Example sampler job on `ibm_torino`. Q-LOCK preserves the intended
+multi-peak distribution while suppressing spurious noise outcomes.*
+
+![IBM Torino – locked high-depth circuit](Screenshot_20251206-142241.png)
+*High-depth RX/RY/RZ ladder with Q-LOCK active: dominant basis states remain
+stable despite depth and hardware noise.*
+
+![Attractor latent state – first 24 dimensions](Screenshot_20251206-142514.png)
+*EExampleattractor-latent projection from real hardware job statistics
+(QAE-96 HNN). Each point corresponds to a latent dimension after Q-LOCK
+compression of noisy counts.*
+
+### Observed behaviour (qualitative)
+
+Across the tested circuits (GHZ-style, deep rotation ladders, and structured
+sampler jobs) we consistently observe that:
+
+- The **target outcome distribution is preserved** to within simulator
+  tolerance, even under realistic NISQ noise.
+- Q-LOCK tends to **concentrate probability mass** into the intended peaks
+  while reducing weight on spurious outcomes.
+- Multiple independent hardware runs of the same locked circuit yield
+  **remarkably stable histograms**, indicating that the attractor perturbation
+  is acting as a *distribution stabilizer* rather than a random distortion.
+
+These benchmark screenshots are not marketing mockups; they are **actual
+hardware runs** executed on IBM Quantum backends, summarized here as
+qualitative evidence of the attractor engine’s behaviour. Reproducible scripts
+for these experiments will be added to the `benchmarks/` directory in future
+revisions.
 
 ---
 
