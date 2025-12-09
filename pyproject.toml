@@ -1,14 +1,24 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=67", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "q-lock-attractor-engine"
+name = "qlock"
 version = "0.1.0"
-description = "Q-LOCK Attractor Engine — identity-locked quantum circuit watermarking by AttraQtor Labs."
-authors = [{name = "Nicholas Hensley"}]
-requires-python = ">=3.9"
-dependencies = ["numpy", "qiskit", "qiskit-aer"]
+description = "Q-LOCK Attractor Engine — Identity-Locked Quantum Circuit Stabilization"
+authors = [
+  { name = "AttraQtor Labs LLC", email = "nic_hensley@proton.me" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE-ATTRAQTOR-LABS.md" }
 
-[project.optional-dependencies]
-dev = ["pytest", "mypy"]
+dependencies = [
+  "qiskit>=1.0.0",
+  "qiskit-aer>=0.13.3",
+  "qiskit-ibm-runtime>=0.22.0",
+  "numpy>=1.23",
+]
+
+[project.scripts]
+qlock = "qlock.cli:main"
