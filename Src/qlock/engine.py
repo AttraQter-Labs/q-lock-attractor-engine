@@ -30,4 +30,4 @@ class QLockEngine:
                 inst.params[0] += delta
                 gate_index += 1
 
-        return locked
+        return lockedd
