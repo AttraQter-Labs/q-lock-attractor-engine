@@ -574,6 +574,178 @@ This lets you progressively document real-world behavior without exposing privat
 
 ---
 
+## 7. Run in Azure Machine Learning
+
+The Q-LOCK Attractor Engine is fully compatible with Azure Machine Learning environments. All operations run locally using the Qiskit Aer simulator—**no Azure Quantum or QPU access is required**.
+
+### 7.1 Environment Setup
+
+#### Option 1: Using Makefile (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/AttraQter-Labs/q-lock-attractor-engine.git
+cd q-lock-attractor-engine
+
+# Setup for Azure ML (installs dependencies without root privileges)
+make azure-ready
+```
+
+#### Option 2: Manual Setup
+
+```bash
+# Run the Azure setup script directly
+bash scripts/azure_setup.sh
+```
+
+#### Option 3: Package Installation
+
+```bash
+# Install as editable package
+pip install -e .
+
+# Or install specific dependencies
+pip install qiskit>=0.43.0 qiskit-aer>=0.12.0 numpy scipy matplotlib pandas
+```
+
+### 7.2 Verify Installation
+
+```bash
+# Check Qiskit version
+python -c "import qiskit; print(f'Qiskit: {qiskit.__version__}')"
+
+# Test CLI
+python q_lock_cli.py --help
+```
+
+### 7.3 CLI Usage
+
+The Q-LOCK CLI provides four main subcommands:
+
+#### Baseline Mode (No Watermarking)
+
+```bash
+python q_lock_cli.py baseline \
+    --circuit examples/ghz.qasm \
+    --shots 2048 \
+    --output-dir ./runs/$(date +%Y%m%d_%H%M%S)
+```
+
+#### Watermark Mode (Identity-Locked Perturbations)
+
+```bash
+python q_lock_cli.py watermark \
+    --circuit examples/ghz.qasm \
+    --identity "AzureML-User-2025" \
+    --shots 2048 \
+    --output-dir ./runs/$(date +%Y%m%d_%H%M%S)
+```
+
+#### Fidelity Mode (Calculate Metrics)
+
+```bash
+python q_lock_cli.py fidelity \
+    --circuit examples/ghz.qasm \
+    --identity "AzureML-User-2025" \
+    --shots 2048 \
+    --output-dir ./runs/$(date +%Y%m%d_%H%M%S)
+```
+
+Computes:
+- **Total Variation Distance (TVD)**: Measures distributional difference
+- **KL Divergence**: Information-theoretic distance
+- **Hellinger Distance**: Geometric measure of similarity
+
+#### Compare Mode (Compare Results)
+
+```bash
+python q_lock_cli.py compare \
+    --output-dir ./runs/20250127_120000
+```
+
+Generates comparison tables and summary JSON/CSV files.
+
+### 7.4 Jupyter Notebook Demo
+
+A complete end-to-end demo is available in the `notebooks/` directory:
+
+```bash
+# Launch Jupyter
+jupyter notebook notebooks/q_lock_azure_demo.ipynb
+```
+
+The notebook demonstrates:
+- ✅ Package installation via `pip install -e .`
+- ✅ Running all CLI subcommands
+- ✅ Generating comparison plots
+- ✅ Saving results to `runs/<timestamp>/`
+- ✅ Local execution (no cloud resources required)
+
+### 7.5 Terminal Verification Commands
+
+After installation, verify everything works:
+
+```bash
+# 1. Create a test circuit
+cat > test_circuit.qasm << 'EOF'
+OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[2];
+creg c[2];
+h q[0];
+cx q[0], q[1];
+measure q -> c;
+EOF
+
+# 2. Run baseline
+python q_lock_cli.py baseline --circuit test_circuit.qasm --shots 1024
+
+# 3. Run watermark
+python q_lock_cli.py watermark --circuit test_circuit.qasm --identity "test-user" --shots 1024
+
+# 4. Run fidelity
+python q_lock_cli.py fidelity --circuit test_circuit.qasm --identity "test-user" --shots 1024
+
+# 5. Compare results
+python q_lock_cli.py compare --output-dir ./runs/default
+
+# 6. View results
+ls -lh ./runs/default/
+cat ./runs/default/comparison_*.json
+```
+
+### 7.6 Output Structure
+
+All results are saved to the `runs/` directory:
+
+```
+runs/
+├── 20250127_120000/
+│   ├── baseline_20250127_120015.json
+│   ├── baseline_20250127_120015.csv
+│   ├── watermark_20250127_120030.json
+│   ├── watermark_20250127_120030.csv
+│   ├── fidelity_20250127_120045.json
+│   ├── fidelity_20250127_120045.csv
+│   ├── comparison_20250127_120100.json
+│   ├── comparison_20250127_120100.csv
+│   ├── distribution_comparison.png
+│   └── fidelity_metrics.png
+└── default/
+    └── (results from CLI without explicit timestamp)
+```
+
+### 7.7 Important Notes
+
+- ⚠️ **No Azure Quantum Required**: All simulations run locally with Qiskit Aer
+- ⚠️ **No `az quantum` CLI**: No dependency on Azure CLI or Azure Quantum service
+- ⚠️ **No Root Privileges**: All installations use `pip install --user` or virtual environments
+- ✅ **Azure ML Compatible**: Tested on Azure ML compute instances with Python 3.8/3.9
+- ✅ **Portable**: No system-level dependencies required
+
+
+---
+
 8. Roadmap
 
 Planned enhancements:
@@ -593,7 +765,7 @@ Planned enhancements:
 
 ---
 
-9. License & IP
+10. License & IP
 
 Code in this repository:
 © AttraQtor Labs LLC — all rights reserved under LICENSE-ATTRAQTOR-LABS.md.
