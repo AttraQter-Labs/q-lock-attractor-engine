@@ -10,8 +10,8 @@ setup(
     author="AttraQtor Labs LLC",
     author_email="nic_hensley@proton.me",
     python_requires=">=3.8",
-    packages=find_packages(where="Src") + [""],  # Include root level modules
-    package_dir={"": "Src", "": "."},
+    packages=find_packages(where="Src"),
+    package_dir={"": "Src"},
     py_modules=["q_lock_engine", "q_lock_cli", "qlock_engine"],
     install_requires=[
         "qiskit>=0.43.0,<2.0.0",
