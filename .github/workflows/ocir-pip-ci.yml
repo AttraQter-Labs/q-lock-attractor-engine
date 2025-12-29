@@ -1,0 +1,76 @@
+name: OCIR-PIP Tractor Engine CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Deterministic Validation & Proof Run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: |
+          pytest -q --disable-warnings --maxfail=1
+
+      - name: Run canonical proof demonstration
+        run: |
+          python examples/proof_run.py
+
+      - name: Verify scalar refusal invariants
+        run: |
+          python - << 'EOF'
+          import json, glob, sys
+
+          reports = glob.glob("reports/*.json")
+          if not reports:
+              print("ERROR: No proof reports generated")
+              sys.exit(1)
+
+          for path in reports:
+              with open(path) as f:
+                  data = json.load(f)
+              if data.get("mode") == "SCALAR" and data.get("verdict") != "REFUSED":
+                  print(f"ERROR: Scalar not refused in {path}")
+                  sys.exit(1)
+
+          print("Scalar refusal invariant verified")
+          EOF
+
+      - name: Verify topology immutability
+        run: |
+          python - << 'EOF'
+          import json, glob, sys
+
+          for path in glob.glob("reports/*.json"):
+              with open(path) as f:
+                  data = json.load(f)
+
+              if data.get("metadata", {}).get("topology_mutation") == "true":
+                  print(f"ERROR: Topology mutated in {path}")
+                  sys.exit(1)
+
+          print("Topology immutability verified")
+          EOF
+
+      - name: CI success
+        run: echo "OCIR-PIP Tractor Engine validated successfully"
