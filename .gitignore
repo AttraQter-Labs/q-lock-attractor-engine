@@ -54,3 +54,7 @@ tmp/
 # Backup files
 *_OLD.*
 *.bak
+
+# Generated reports
+reports/
+*.json
