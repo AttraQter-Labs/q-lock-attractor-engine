@@ -1,23 +1,22 @@
 """
-Q-LOCK: Attractor-Based Coherence Stabilization and Safety Engine
+OCIR-PIP Tractor Engine: History-Aware Stability for Quantum Systems
 
-A control, stabilization, and refusal layer for quantum circuits
-and high-noise computational systems.
+Relational stability engine that preserves computational basins under noise
+without altering system topology, equations, or execution semantics.
 """
 
-from qlock.engine import QLockEngine
-from qlock.guards import Guard, NoiseGuard, ScalarGuard
-from qlock.metrics import Metrics
-from qlock.observer import Observer
-from qlock.history import History
+from qlock.engine import QLockEngine, Refusal
+from qlock.api import QLockClient
+from qlock.metrics import StabilityMetrics
+from qlock.types import StabilizationMode, CircuitStatus, RefusalReason
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = [
     "QLockEngine",
-    "Guard",
-    "NoiseGuard",
-    "ScalarGuard",
-    "Metrics",
-    "Observer",
-    "History",
+    "QLockClient",
+    "Refusal",
+    "StabilityMetrics",
+    "StabilizationMode",
+    "CircuitStatus",
+    "RefusalReason",
 ]
