@@ -1,0 +1,68 @@
+[
+  {
+    "timestamp": "2025-12-29T20:01:07.451183",
+    "mode": "fidelity",
+    "input_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "output_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "metrics": {
+      "coherence": 0.95,
+      "entropy": 0.5,
+      "variance": 0.1,
+      "kl_divergence": 0.02,
+      "fidelity": 0.98
+    },
+    "verdict": "ACCEPTED"
+  },
+  {
+    "timestamp": "2025-12-29T20:01:07.451202",
+    "mode": "fidelity",
+    "input_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "output_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "metrics": {
+      "coherence": 0.95,
+      "entropy": 0.5,
+      "variance": 0.1,
+      "kl_divergence": 0.02,
+      "fidelity": 0.98
+    },
+    "verdict": "ACCEPTED"
+  },
+  {
+    "timestamp": "2025-12-29T20:01:07.451217",
+    "mode": "fidelity",
+    "input_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "output_summary": {
+      "type": "MockCircuit",
+      "num_qubits": 4,
+      "depth": 8
+    },
+    "metrics": {
+      "coherence": 0.95,
+      "entropy": 0.5,
+      "variance": 0.1,
+      "kl_divergence": 0.02,
+      "fidelity": 0.98
+    },
+    "verdict": "ACCEPTED"
+  }
+]
