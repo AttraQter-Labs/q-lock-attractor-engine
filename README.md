@@ -55,5 +55,26 @@ unitarity, or causality**.
 - Procedural divergence diagnosis
 - High-dimensional simulation stability
 
+## Mirror Engine (Exploratory Counterpart)
+
+The **Mirror Engine** is the epistemic dual of the Tractor Engine:
+
+| Property | Mirror Engine | Tractor Engine |
+|----------|---------------|----------------|
+| Purpose | Exploration | Stabilization |
+| Output | Divergent | Convergent |
+| Refusals | No | Yes |
+| Constraints | None | Strict |
+
+**Workflow:**
+1. Mirror Engine generates procedural variants (Π-space enumeration)
+2. Variants are validated by Tractor Engine
+3. Tractor Engine refuses or stabilizes each variant
+4. Refusals surface constraint violations
+
+This separation preserves scientific integrity through explicit constraint enforcement.
+
+See `mirror_engine/README.md` for details.
+
 ## Licensing
 See LICENSE for commercial and research terms.
