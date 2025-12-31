@@ -3,15 +3,15 @@ requires = ["setuptools>=67", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "qlock"
-version = "0.1.0"
-description = "Q-LOCK Attractor Engine — Identity-Locked Quantum Circuit Stabilization"
+name = "spectrum-gse"
+version = "1.0.0"
+description = "SPECTRUM GSE - General Stability Engine for quantum and complex systems (Validator + Explorer Engines)"
 authors = [
   { name = "AttraQtor Labs LLC", email = "nic_hensley@proton.me" }
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE-ATTRAQTOR-LABS.md" }
+license = { text = "Dual-License: Research (Non-Commercial) / Commercial" }
 
 dependencies = [
   "qiskit>=1.0.0",
@@ -21,4 +21,12 @@ dependencies = [
 ]
 
 [project.scripts]
-qlock = "qlock.cli:main"
+spectrum-gse = "qlock.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/AttraQter-Labs/q-lock-attractor-engine"
+Documentation = "https://github.com/AttraQter-Labs/q-lock-attractor-engine/tree/main/docs"
+Repository = "https://github.com/AttraQter-Labs/q-lock-attractor-engine"
+
+[tool.setuptools]
+packages = ["qlock", "qlock.engine", "qlock.api", "qlock.metrics", "explorer_engine", "adapters"]

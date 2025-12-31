@@ -1,308 +1,113 @@
-# Q-LOCK ATTRACTOR ENGINE  
-**AttraQtor Labs LLC — Identity-Locked Quantum Circuit Stabilization**
+# SPECTRUM GSE (General Stability Engine)
+### History-Aware Stability & Basin Preservation for Quantum and Complex Systems
+
+**Version**: 1.0.0 | **Status**: Canonical v1.0 — Frozen | **Released**: 2025-12-31
+
+> **SPECTRUM GSE v1.0 is behaviorally frozen.**
+> No learning, no optimization, no topology mutation.
+> Only derivative extensions permitted.
+
+## What This Is
+
+**SPECTRUM GSE** consists of two engines:
+- **Explorer Engine**: Hypothesis generation and procedural exploration
+- **Validator Engine**: Stability validation and falsification
+
+The **Validator Engine** is a *relational stability engine* that preserves
+computational basins under noise **without altering system topology, equations,
+or execution semantics**.
+
+This is **not** a predictive model.
+This is **not** an optimizer.
+This is a **stability and falsification engine**.
+
+It does **not** optimize, rewrite, compile, or control circuits.
+
+It **re-parameterizes execution context** to retain coherence, variance bounds,
+and identity under noise and procedural divergence.
+
+## What Problem It Solves
+Modern quantum and complex systems suffer from:
+- Irreproducibility under nominally identical conditions
+- Noise-driven basin collapse
+- Procedural (history-dependent) divergence
+- False assumptions of ensemble equivalence
+
+This engine directly addresses these failure modes **without violating physics,
+unitarity, or causality**.
+
+## Core Capabilities
+- Noise-robust basin preservation
+- Procedural history (Π) divergence detection
+- Identity-locked stabilization (watermarking)
+- Refusal-based safety when stabilization would be harmful
+- Zero topology mutation
+- Equation-invariant operation
+
+## What It Is NOT
+- ❌ Not a compiler
+- ❌ Not an optimizer
+- ❌ Not an error-correcting code
+- ❌ Not a symbolic system
+- ❌ Not a control loop
+
+## Supported Modes
+| Mode | Purpose |
+|-----|--------|
+| Fidelity | Minimal-entropy basin pull |
+| Witness + Phase | Optimal low-noise stabilization |
+| Watermark | Identity locking without mutation |
+| Scalar | **Strictly bounded**; auto-refused outside admissible regimes |
+
+## Key Invariant
+> If stabilization would increase entropy, distort topology, or violate history:
+> **the engine refuses to act.**
+
+## Typical Use Cases
+- Quantum circuit stabilization (pre-execution)
+- Repeatability analysis across hardware runs
+- Noise-stratified benchmarking
+- Procedural divergence diagnosis
+- High-dimensional simulation stability
+
+## Explorer Engine (Exploratory Counterpart)
+
+The **Explorer Engine** is the epistemic dual of the Validator Engine:
+
+| Property | Explorer Engine | Validator Engine |
+|----------|---------------|----------------|
+| Purpose | Exploration | Stabilization |
+| Output | Divergent | Convergent |
+| Refusals | No | Yes |
+| Constraints | None | Strict |
+
+**Workflow:**
+1. Explorer Engine generates procedural variants (Π-space enumeration)
+2. Variants are validated by Validator Engine
+3. Validator Engine refuses or stabilizes each variant
+4. Refusals surface constraint violations
+
+This separation preserves scientific integrity through explicit constraint enforcement.
+
+See `explorer_engine/README.md` for details.
+
+## Intended Audience
+
+SPECTRUM GSE v1.0 is designed for:
+- **Research laboratories** conducting quantum computing research
+- **Universities** teaching quantum algorithm development
+- **Scientific infrastructure teams** requiring reproducibility
+- **Benchmarking initiatives** measuring hardware performance
+- **Verification teams** validating quantum circuit behavior
 
-Deterministic, identity-locked perturbations that preserve circuit intent while stabilizing behavior under noise and compilation drift.
+## Proof Artifacts
 
----
+Canonical proof run and verification:
+- `proofs/canonical_proof_run.md` - Human-readable proof document
+- `proofs/canonical_proof_run.json` - Machine-readable proof record
+- `docs/CLAIM_BOUNDARY.md` - Explicit claim boundaries and limitations
 
-## 1. What This Is
+**Verified**: Variance reduction 46.1%, topology immutable, scalar disabled ✓
 
-The Q-LOCK Attractor Engine is a pre-processing layer for quantum circuits:
-
-- It ingests a user’s identity string and a QASM / `QuantumCircuit`.
-- It computes a high-dimensional latent vector from that identity.
-- It applies a tiny, structured perturbation to rotation gates in the circuit.
-
-The perturbation is:
-
-- Deterministic for a given identity and circuit.  
-- Invertible at the logical level (no change of algorithmic intent).  
-- Statistically stable under compilation, layout changes, and moderate noise.
-
-In plain language:
-
-> You get a circuit that “looks and behaves” like your original,  
-> but carries a hidden, identity-locked signature and often shows  
-> more stable output distributions across runs and backends.
-
----
-
-## 2. Why Enterprises Care
-
-### 2.1 Deterministic Identity Locking
-
-Each run is tagged by a cryptographic identity hash (derived from your identity string).
-
-This gives:
-
-- **Provenance**: who generated/authorized a circuit.  
-- **Auditability**: internal teams can trace circuits back to origin.  
-- **Non-repudiation flavor**: two different identities almost surely produce different locked circuits.
-
-No quantum keys, no classical tokens — just the identity string and the attractor logic.
-
-### 2.2 Distribution-Preserving Perturbations
-
-The engine is explicitly designed so that:
-
-- On simulators with no noise, the **ideal output distribution** is effectively unchanged.  
-- Under realistic noise models (depolarizing / thermal relaxation), small tests often show:
-  - **More stable histograms** across repeated runs.  
-  - Less variability when changing compilation settings.
-
-This is **not** magic error correction. It is a **deterministic, structured “jitter” layer** that reshapes how the circuit sits in the noise landscape, without altering its logic.
-
-### 2.3 Real Hardware Evidence (Earlier Versions)
-
-Earlier internal versions of the attractor logic were tested on:
-
-- **IBM Quantum hardware** (e.g., Perth, Brisbane, Toronto)  
-- High-depth circuits including:
-  - GHZ chains  
-  - Entangling ladders  
-  - Parameterized rotation networks  
-
-Results consistently showed:
-
-- **High agreement between locked and ideal distributions**, and  
-- **Stable behavior** across repeated shots and layout rewrites.
-
-The current engine maintains the same conceptual architecture, with a more modular, enterprise-ready implementation.
-
-> 📊 See `/benchmarks/` and the README “Hardware Benchmarks” section (once populated)  
-> for example histograms and real hardware runs.
-
----
-
-## 3. High-Level Architecture
-
-At a high level, the engine does this:
-
-1. **Identity Encoding**
-   - Take an arbitrary string, e.g.
-     - `"alice@example.com"`
-     - `"Team-A-Production-Key"`
-     - `"Prof. Einstein"`
-   - Hash it with a cryptographic hash (e.g., SHA-256).
-   - Expand and normalize into a **high-dimensional real vector**.
-
-2. **Latent-Space Attractor**
-   - Map that vector into a very high-dimensional latent space (e.g. 60k+ dimensions).
-   - Apply a **structured, unitary-based attractor iteration**:
-     - Golden-ratio inspired phase structure.
-     - Controlled contraction towards a stable fixed point.
-   - The result is a **deterministic “identity signature vector”**.
-
-3. **Circuit Feature Extraction**
-   - Parse the circuit (QASM2 or `QuantumCircuit`) and extract:
-     - Rotation angles (from `rx`, `ry`, `rz`, parameterized gates).
-     - Gate counts / structural features (fallback path).
-   - Normalize these into a feature vector.
-
-4. **Fusion & Perturbation**
-   - Fuse circuit features with the identity signature vector.
-   - Compute a **small per-gate perturbation** for rotation angles.
-   - Produce a **locked circuit**:
-     - Algorithmically equivalent.  
-     - Identity-tagged implicitly.  
-     - Ready for simulation or hardware execution.
-
----
-
-## 4. Current Public Capabilities
-
-The public Q-LOCK engine in this repository provides:
-
-- ✅ **Identity string input** (via CLI or notebook)  
-- ✅ **QASM 2.0 circuit intake**  
-- ✅ Optional **Qiskit `QuantumCircuit` intake**  
-- ✅ **Locked circuit output** in `QuantumCircuit` form  
-- ✅ **QASM2 export** of the locked circuit  
-- ✅ Optional **local simulation** (QASM simulator) for:
-  - Counts histograms  
-  - Baseline distribution comparisons  
-
-The **core attractor logic** used to compute the identity perturbations is kept proprietary by AttraQtor Labs LLC and **not exposed in this repository**.
-
----
-
-## 5. Quickstart
-
-### 5.1 Requirements
-
-Python 3.10+ recommended.
-
-Install base dependencies:
-
-```bash
-pip install qiskit qiskit-aer numpy
-
-(If you only want to use the text-mode wrapper and not simulate, you can skip qiskit-aer.)
-
-
----
-
-5.2 Using the Notebook (Recommended First Contact)
-
-1. Open the main notebook:
-
-q_lock_attractor_engine.ipynb
-
-
-2. Run the first cell to install any missing dependencies.
-
-
-3. When prompted:
-
-Enter your identity string, e.g. Prof. Einstein.
-
-Paste a QASM 2.0 circuit.
-
-Type END on a new line to finish.
-
-
-
-
-You’ll see:
-
-Original circuit diagram
-
-Locked circuit diagram
-
-Simulation counts for the locked circuit
-
-JSON-style summary of the run
-
-
-
----
-
-5.3 Python API (Future src/ Package)
-
-In a packaged form (coming in a future version), usage will look like:
-
-from attraqtor_engine import QLockEngine
-from qiskit import QuantumCircuit
-
-engine = QLockEngine(identity="Prof. Einstein")
-
-qc = QuantumCircuit(2, 2)
-qc.h(0)
-qc.cx(0, 1)
-qc.measure([0, 1], [0, 1])
-
-locked_qc = engine.lock(qc)
-
-print(locked_qc)
-
-
----
-
-6. Example: GHZ-Style Chain
-
-Example QASM 2.0 input:
-
-OPENQASM 2.0;
-include "qelib1.inc";
-
-qreg q[4];
-creg c[4];
-
-h q[0];
-cx q[0], q[1];
-cx q[1], q[2];
-cx q[2], q[3];
-
-rz(0.3) q[0];
-ry(0.6) q[1];
-rx(0.9) q[2];
-rz(1.2) q[3];
-
-measure q -> c;
-
-With the engine in pulse_ready mode, a typical JSON report might look like:
-
-{
-  "engine": "AttractorEngine_Public_v1",
-  "mode": "pulse_ready",
-  "fingerprint_sha256": "f238d2c7...999d2",
-  "simulation": {
-    "backend": "qasm_simulator",
-    "shots": 2048,
-    "counts": {
-      "0000": 727,
-      "1111": 801,
-      "0100": 186,
-      "1011": 166,
-      "others": "..."
-    },
-    "fidelity_to_ideal": 0.9992
-  }
-}
-
-The key point: the locked circuit reproduces the ideal GHZ-like behavior with high fidelity while carrying your identity lock.
-
-
----
-
-7. Screenshot Section
-
-(Screenshot section placeholder — hardware benchmark images and before/after histograms will be referenced here.)
-
-
----
-
-8. Roadmap
-
-Planned enhancements:
-
-📦 Packaged src/ module (pip install attraqtor-engine)
-
-🧪 Automated fidelity tests (pytest + Qiskit Aer noise models)
-
-📊 Benchmarks for multiple hardware providers
-
-🧾 Formal whitepaper (math & experiments)
-
-🌐 Public docs site (AttraQtorLabs.com integration)
-
-🔐 Optional enterprise license hooks:
-
-per-team keys
-
-per-tenant identity domains
-
-
----
-
-9. License & IP
-
-Code in this repository:
-© AttraQtor Labs LLC — all rights reserved under LICENSE-ATTRAQTOR-LABS.md.
-
-Core attractor logic, high-dimensional mappings, and detailed internal mathematics are proprietary and intentionally not included in this public repo.
-
-Commercial licensing and enterprise integration are available on request.
-
-
----
-
-10. Contact
-
-AttraQtor Labs LLC
-Q-Lock Attractor Engine — Enterprise & Research Inquiries
-
-Website: https://AttraQtorLabs.com
-
-GitHub: https://github.com/AttraQter-Labs
-
-Email: nic_hensley@proton.me
-   
-
-
-Code in this repository:
-© AttraQtor Labs LLC — all rights reserved under LICENSE-ATTRAQTOR-LABS.md.
-
-Core attractor logic, high-dimensional mappings, and detailed internal mathematics are proprietary and intentionally not included in this public repo.
-
-Commercial licensing and enterprise integration are available on request.
+## Licensing
+See LICENSE for commercial and research terms.
