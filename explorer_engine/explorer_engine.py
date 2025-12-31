@@ -1,5 +1,5 @@
 """
-Mirror Engine — Procedural Exploration Implementation
+Explorer Engine — Procedural Exploration Implementation
 
 Generates procedural variants without constraint or stabilization.
 """
@@ -9,7 +9,7 @@ from typing import Any, Dict, List
 
 
 @dataclass(frozen=True)
-class MirrorResult:
+class ExplorerResult:
     """
     Result from procedural variant enumeration.
     
@@ -23,30 +23,30 @@ class MirrorResult:
     notes: str
 
 
-class MirrorEngine:
+class ExplorerEngine:
     """
-    Mirror Engine (Exploratory)
+    Explorer Engine (Exploratory)
 
     Generates procedural variants and hypothesis space.
     Output is intentionally unstable, divergent, and non-collapsing.
     
-    This engine operates in contrast to the Tractor Engine:
-    - Tractor: stabilizes, refuses, constrains
-    - Mirror: explores, diverges, enumerates
+    This engine operates in contrast to the Validator Engine:
+    - Validator: stabilizes, refuses, constrains
+    - Explorer: explores, diverges, enumerates
     
-    Mirror output should be validated by Tractor Engine.
+    Explorer output should be validated by Validator Engine.
     """
 
     def __init__(self, base_object: Any):
         """
-        Initialize Mirror Engine with base object.
+        Initialize Explorer Engine with base object.
         
         Args:
             base_object: Base object to generate variants from
         """
         self.base_object = base_object
 
-    def enumerate_procedures(self, variants: int = 10) -> List[MirrorResult]:
+    def enumerate_procedures(self, variants: int = 10) -> List[ExplorerResult]:
         """
         Enumerate Π-variants without judgment.
 
@@ -58,13 +58,13 @@ class MirrorEngine:
             variants: Number of procedural variants to generate
             
         Returns:
-            List of MirrorResult objects representing procedural variants
+            List of ExplorerResult objects representing procedural variants
         """
         results = []
 
         for i in range(variants):
             results.append(
-                MirrorResult(
+                ExplorerResult(
                     pi_signature=f"PI_{i}",
                     assumptions={
                         "ordering": "varied",

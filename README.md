@@ -1,8 +1,8 @@
-# OCIR-PIP Tractor Engine
+# SPECTRUM GSE Validator Engine
 ### History-Aware Stability & Basin Preservation for Quantum and Complex Systems
 
 ## What This Is
-The **OCIR-PIP Tractor Engine** is a *relational stability engine* that preserves
+The **SPECTRUM GSE Validator Engine** is a *relational stability engine* that preserves
 computational basins under noise **without altering system topology, equations,
 or execution semantics**.
 
@@ -55,11 +55,11 @@ unitarity, or causality**.
 - Procedural divergence diagnosis
 - High-dimensional simulation stability
 
-## Mirror Engine (Exploratory Counterpart)
+## Explorer Engine (Exploratory Counterpart)
 
-The **Mirror Engine** is the epistemic dual of the Tractor Engine:
+The **Explorer Engine** is the epistemic dual of the Validator Engine:
 
-| Property | Mirror Engine | Tractor Engine |
+| Property | Explorer Engine | Validator Engine |
 |----------|---------------|----------------|
 | Purpose | Exploration | Stabilization |
 | Output | Divergent | Convergent |
@@ -67,14 +67,14 @@ The **Mirror Engine** is the epistemic dual of the Tractor Engine:
 | Constraints | None | Strict |
 
 **Workflow:**
-1. Mirror Engine generates procedural variants (Π-space enumeration)
-2. Variants are validated by Tractor Engine
-3. Tractor Engine refuses or stabilizes each variant
+1. Explorer Engine generates procedural variants (Π-space enumeration)
+2. Variants are validated by Validator Engine
+3. Validator Engine refuses or stabilizes each variant
 4. Refusals surface constraint violations
 
 This separation preserves scientific integrity through explicit constraint enforcement.
 
-See `mirror_engine/README.md` for details.
+See `explorer_engine/README.md` for details.
 
 ## Licensing
 See LICENSE for commercial and research terms.

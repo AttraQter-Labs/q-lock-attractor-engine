@@ -1,8 +1,8 @@
-# OCIR-PIP Tractor Engine Examples
+# SPECTRUM GSE Validator Engine Examples
 
 ## Proof Run
 
-The `proof_run.py` script demonstrates the canonical OCIR-PIP Tractor Engine with synthetic distributions.
+The `proof_run.py` script demonstrates the canonical SPECTRUM GSE Validator Engine with synthetic distributions.
 
 ### Purpose
 
@@ -50,9 +50,9 @@ Each report includes:
 ```
 examples/proof_run.py
     ↓
-adapters/tractor_engine.py (simplified interface)
+adapters/validator_engine.py (simplified interface)
     ↓
-qlock/engine/core.py (canonical TractorEngine)
+qlock/engine/core.py (canonical ValidatorEngine)
 ```
 
 ## Other Examples

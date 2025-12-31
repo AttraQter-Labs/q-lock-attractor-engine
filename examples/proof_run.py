@@ -1,16 +1,16 @@
 """
-OCIR-PIP Tractor Engine — Canonical Proof Run
+SPECTRUM GSE Validator Engine — Canonical Proof Run
 
 This script is intentionally simple.
 It demonstrates:
-  • Baseline vs Tractor
+  • Baseline vs Validator
   • No topology mutation
   • No learning
   • Measurable improvement
 """
 
 import numpy as np
-from adapters.tractor_engine import TractorEngineAdapter
+from adapters.validator_engine import ValidatorEngineAdapter
 from adapters.metrics import summarize_metrics
 from adapters.reporting import make_report, save_report
 
@@ -29,7 +29,7 @@ def synthetic_distribution(n: int = 64, noise: float = 0.005) -> np.ndarray:
 
 
 def main():
-    engine = TractorEngineAdapter()
+    engine = ValidatorEngineAdapter()
 
     p_before = synthetic_distribution()
 
@@ -56,7 +56,7 @@ def main():
             mode=mode,
             metrics=results[mode],
             metadata={
-                "engine": "OCIR-PIP Tractor Engine",
+                "engine": "SPECTRUM GSE Validator Engine",
                 "topology_mutation": "false",
                 "learning": "false",
                 "scalar": "disabled"
@@ -65,7 +65,7 @@ def main():
 
         save_report(report, f"reports/{mode.lower()}_report.json")
 
-    print("=== OCIR-PIP PROOF RUN COMPLETE ===")
+    print("=== SPECTRUM GSE PROOF RUN COMPLETE ===")
     for k, v in results.items():
         print(k, v)
 

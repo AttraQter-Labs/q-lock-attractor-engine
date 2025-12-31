@@ -1,13 +1,13 @@
 """
-Adapters module for OCIR-PIP Tractor Engine.
+Adapters module for SPECTRUM GSE.
 """
 
-from adapters.tractor_engine import TractorEngineAdapter
+from adapters.validator_engine import ValidatorEngineAdapter
 from adapters.metrics import summarize_metrics
 from adapters.reporting import make_report, save_report, load_report
 
 __all__ = [
-    "TractorEngineAdapter",
+    "ValidatorEngineAdapter",
     "summarize_metrics",
     "make_report",
     "save_report",

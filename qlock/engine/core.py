@@ -1,6 +1,6 @@
 """
-OCIR-PIP TRACTOR ENGINE — CANONICAL REFERENCE IMPLEMENTATION
-Version: Ω-LOCKED
+SPECTRUM GSE VALIDATOR ENGINE — CANONICAL REFERENCE IMPLEMENTATION
+Version: 1.0.0
 Status: REVIEWABLE / SAFE / NON-OPTIMIZING
 
 This file intentionally implements:
@@ -15,7 +15,7 @@ This engine:
 - DOES NOT suppress procedural divergence (Π)
 - DOES enforce refusal boundaries
 
-This is a stability-preserving, basin-pulling engine.
+This is a stability-preserving, basin-pulling validation engine.
 """
 
 from dataclasses import dataclass
@@ -57,9 +57,9 @@ class EngineContext:
 # Core Engine
 # =========================
 
-class TractorEngine:
+class ValidatorEngine:
     """
-    Canonical Tractor Engine
+    Canonical Validator Engine (SPECTRUM GSE v1.0)
 
     All operations are:
     - Deterministic
@@ -302,3 +302,7 @@ class QLockEngine:
     def get_refusal_log(self):
         """Get log of all refusals."""
         return list(self._refusal_log)
+
+
+# Backward compatibility alias
+TractorEngine = ValidatorEngine

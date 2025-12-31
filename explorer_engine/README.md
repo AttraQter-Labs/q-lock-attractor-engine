@@ -1,6 +1,6 @@
-# Mirror Engine
+# Explorer Engine
 
-The Mirror Engine is the exploratory counterpart to the OCIR-PIP Tractor Engine.
+The Explorer Engine is the exploratory counterpart to the SPECTRUM GSE Validator Engine.
 
 ## What it does
 - Enumerates procedural variants (Π-space)
@@ -16,7 +16,7 @@ The Mirror Engine is the exploratory counterpart to the OCIR-PIP Tractor Engine.
 - No invariant enforcement
 
 ## Intended use
-Mirror Engine output is **fed into** the Tractor Engine for validation,
+Explorer Engine output is **fed into** the Validator Engine for validation,
 refusal detection, and basin analysis.
 
 This separation preserves scientific integrity.
@@ -24,10 +24,10 @@ This separation preserves scientific integrity.
 ## Usage
 
 ```python
-from mirror_engine import MirrorEngine
+from explorer_engine import ExplorerEngine
 
 # Create engine with base object
-engine = MirrorEngine(base_object=my_circuit)
+engine = ExplorerEngine(base_object=my_circuit)
 
 # Generate procedural variants
 variants = engine.enumerate_procedures(variants=10)
@@ -39,12 +39,12 @@ for variant in variants:
     print(f"Notes: {variant.notes}")
 ```
 
-## Relationship to Tractor Engine
+## Relationship to Validator Engine
 
-The Mirror Engine and Tractor Engine form an epistemic pair:
+The Explorer Engine and Validator Engine form an epistemic pair within SPECTRUM GSE:
 
-| Property | Mirror Engine | Tractor Engine |
-|----------|---------------|----------------|
+| Property | Explorer Engine | Validator Engine |
+|----------|-----------------|------------------|
 | Purpose | Exploration | Stabilization |
 | Output | Divergent | Convergent |
 | Refusals | No | Yes |
@@ -53,10 +53,10 @@ The Mirror Engine and Tractor Engine form an epistemic pair:
 | Optimization | No | No |
 
 **Workflow:**
-1. Mirror Engine generates procedural variants (unconstrained)
-2. Variants are passed to Tractor Engine for validation
-3. Tractor Engine applies constraints and may refuse variants
-4. Valid variants are stabilized by Tractor Engine
+1. Explorer Engine generates procedural variants (unconstrained)
+2. Variants are passed to Validator Engine for validation
+3. Validator Engine applies constraints and may refuse variants
+4. Valid variants are stabilized by Validator Engine
 5. Refusals surface constraint violations for analysis
 
 This separation ensures:

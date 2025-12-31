@@ -1,16 +1,16 @@
 """
-Adapter module for TractorEngine.
+Adapter module for ValidatorEngine.
 
 Provides a simplified interface that accepts distributions directly.
 """
 
 import numpy as np
-from qlock.engine.core import TractorEngine, EngineContext, EngineMetrics, EngineRefusal
+from qlock.engine.core import ValidatorEngine, EngineContext, EngineMetrics, EngineRefusal
 
 
-class TractorEngineAdapter:
+class ValidatorEngineAdapter:
     """
-    Adapter for TractorEngine that works with probability distributions.
+    Adapter for ValidatorEngine that works with probability distributions.
     
     Simplifies the canonical engine interface for demonstration purposes.
     """
@@ -49,7 +49,7 @@ class TractorEngineAdapter:
         initial_metrics = self._create_initial_metrics(distribution)
         
         # Create engine
-        engine = TractorEngine(context)
+        engine = ValidatorEngine(context)
         
         # Map mode names
         mode_map = {
