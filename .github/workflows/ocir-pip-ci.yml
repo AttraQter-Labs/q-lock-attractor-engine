@@ -1,4 +1,4 @@
-name: OCIR-PIP Tractor Engine CI
+name: SPECTRUM GSE v1.0 CI
 
 on:
   push:
@@ -28,6 +28,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Verify version freeze
+        run: |
+          python - << 'EOF'
+          import sys
+          with open('qlock/engine/core.py', 'r') as f:
+              content = f.read()
+              if 'Version: 1.0.0' not in content:
+                  print("ERROR: Version must be 1.0.0 (canonical freeze)")
+                  sys.exit(1)
+          print("✓ Version freeze verified (1.0.0)")
+          EOF
+
       - name: Run unit tests
         run: |
           pytest -q --disable-warnings --maxfail=1
@@ -53,7 +65,7 @@ jobs:
                   print(f"ERROR: Scalar not refused in {path}")
                   sys.exit(1)
 
-          print("Scalar refusal invariant verified")
+          print("✓ Scalar refusal invariant verified")
           EOF
 
       - name: Verify topology immutability
@@ -69,8 +81,25 @@ jobs:
                   print(f"ERROR: Topology mutated in {path}")
                   sys.exit(1)
 
-          print("Topology immutability verified")
+          print("✓ Topology immutability verified")
+          EOF
+
+      - name: Verify no learning
+        run: |
+          python - << 'EOF'
+          import json, glob, sys
+
+          for path in glob.glob("reports/*.json"):
+              with open(path) as f:
+                  data = json.load(f)
+
+              if data.get("metadata", {}).get("learning") == "true":
+                  print(f"ERROR: Learning detected in {path}")
+                  sys.exit(1)
+
+          print("✓ No learning verified")
           EOF
 
       - name: CI success
-        run: echo "OCIR-PIP Tractor Engine validated successfully"
+        run: echo "✓ SPECTRUM GSE v1.0 validated successfully - all invariants held"
+

@@ -1,10 +1,25 @@
-# SPECTRUM GSE Validator Engine
+# SPECTRUM GSE (General Stability Engine)
 ### History-Aware Stability & Basin Preservation for Quantum and Complex Systems
 
+**Version**: 1.0.0 | **Status**: Canonical v1.0 — Frozen | **Released**: 2025-12-31
+
+> **SPECTRUM GSE v1.0 is behaviorally frozen.**
+> No learning, no optimization, no topology mutation.
+> Only derivative extensions permitted.
+
 ## What This Is
-The **SPECTRUM GSE Validator Engine** is a *relational stability engine* that preserves
+
+**SPECTRUM GSE** consists of two engines:
+- **Explorer Engine**: Hypothesis generation and procedural exploration
+- **Validator Engine**: Stability validation and falsification
+
+The **Validator Engine** is a *relational stability engine* that preserves
 computational basins under noise **without altering system topology, equations,
 or execution semantics**.
+
+This is **not** a predictive model.
+This is **not** an optimizer.
+This is a **stability and falsification engine**.
 
 It does **not** optimize, rewrite, compile, or control circuits.
 
@@ -75,6 +90,24 @@ The **Explorer Engine** is the epistemic dual of the Validator Engine:
 This separation preserves scientific integrity through explicit constraint enforcement.
 
 See `explorer_engine/README.md` for details.
+
+## Intended Audience
+
+SPECTRUM GSE v1.0 is designed for:
+- **Research laboratories** conducting quantum computing research
+- **Universities** teaching quantum algorithm development
+- **Scientific infrastructure teams** requiring reproducibility
+- **Benchmarking initiatives** measuring hardware performance
+- **Verification teams** validating quantum circuit behavior
+
+## Proof Artifacts
+
+Canonical proof run and verification:
+- `proofs/canonical_proof_run.md` - Human-readable proof document
+- `proofs/canonical_proof_run.json` - Machine-readable proof record
+- `docs/CLAIM_BOUNDARY.md` - Explicit claim boundaries and limitations
+
+**Verified**: Variance reduction 46.1%, topology immutable, scalar disabled ✓
 
 ## Licensing
 See LICENSE for commercial and research terms.
